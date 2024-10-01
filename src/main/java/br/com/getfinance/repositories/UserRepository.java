@@ -1,0 +1,7 @@
+package br.com.getfinance.repositories;
+
+import br.com.getfinance.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+}
