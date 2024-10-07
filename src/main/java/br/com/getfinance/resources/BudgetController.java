@@ -1,5 +1,6 @@
 package br.com.getfinance.resources;
 
+import br.com.getfinance.dtos.BudgetDTO;
 import br.com.getfinance.models.Budget;
 import br.com.getfinance.services.IBudgetService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,9 +27,17 @@ public class BudgetController {
     }
 
     @Tag(name = "BUDGET")
-    @Operation(description = "list all budgets after actual date")
-    @GetMapping("/all")
-    public ResponseEntity<List<Budget>> findAll(){
-        return ResponseEntity.ok().body(iBudgetService.getAllBudgets());
+    @Operation(description = "Find budget by id with installments")
+    @GetMapping("/{id}")
+    public ResponseEntity<Budget> findByID(@PathVariable("id")Long id){
+        return ResponseEntity.ok().body(iBudgetService.getBudgetWithInstallments(id));
     }
+
+    @Tag(name = "BUDGET")
+    @Operation(description = "List all budgets by user id")
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<BudgetDTO>> findAll(@PathVariable("id")Long id){
+        return ResponseEntity.ok().body(iBudgetService.findAllBudgetsByUserID(id));
+    }
+
 }
