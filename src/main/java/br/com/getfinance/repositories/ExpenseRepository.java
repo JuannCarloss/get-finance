@@ -10,11 +10,16 @@ import java.util.List;
 public interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSpecificationExecutor<Expense> {
 
     @Query("""
-            SELECT e.expenseCategory, SUM(amount) AS total_expenses
+            SELECT combined.category, SUM(combined.amount) AS total_gasto
+            FROM (
+            SELECT e.amount AS amount, e.expenseCategory AS category
             FROM tb_expenses e
-            WHERE e.date >= DATE_TRUNC('month', CURRENT_DATE)
-            GROUP BY e.expenseCategory
-            ORDER BY total_expenses DESC
+            UNION ALL
+            SELECT i.amount AS amount, i.category AS category
+            FROM tb_installments i
+            ) AS combined
+            GROUP BY combined.category
+            ORDER BY total_gasto DESC
             """)
     List<Object[]> getAllMonthlyExpenses(Long userID);
 }

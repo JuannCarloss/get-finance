@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -14,7 +13,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity(name = "tb_expenses")
 public class Expense extends EntityID{
 
@@ -39,5 +37,9 @@ public class Expense extends EntityID{
 
     @Column(name = "expense_date")
     private LocalDate date;
+
+    public Expense(){
+        this.date = LocalDate.now();
+    }
 
 }
