@@ -29,6 +29,9 @@ public class User extends EntityID{
     @Column(name = "email")
     private String email;
 
+    @Column(name = "average_salary")
+    private Double averageSalary;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "userID", fetch = FetchType.LAZY)
     private Set<Expense> expenses = new HashSet<>();
