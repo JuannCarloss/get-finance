@@ -2,12 +2,13 @@ package br.com.getfinance.repositories;
 
 import br.com.getfinance.models.Installment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface InstallmentRepository extends JpaRepository<Installment, Long> {
+public interface InstallmentRepository extends JpaRepository<Installment, Long>, JpaSpecificationExecutor<Installment> {
 
     List<Installment> findAllByInstallmentStatusAndDateBefore(String status, LocalDate date);
 
@@ -16,7 +17,9 @@ public interface InstallmentRepository extends JpaRepository<Installment, Long> 
             FROM tb_installments i
             WHERE i.installmentStatus = 'PAGAR'
             AND i.date >= :actualdate
+            AND i.userID = :userID
             GROUP BY DATE_TRUNC('month', date)
-            ORDER BY mes""")
-    List<Object[]> listTotalAmount(LocalDate actualdate);
+            ORDER BY mes
+            """)
+    List<Object[]> listTotalAmount(LocalDate actualdate, Long userID);
 }

@@ -1,5 +1,6 @@
 package br.com.getfinance.models;
 
+import br.com.getfinance.enums.ExpenseCategory;
 import br.com.getfinance.enums.InstallmentStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -24,6 +25,9 @@ public class Installment extends EntityID{
     @JsonIgnore
     private Budget budget;
 
+    @Column(name = "user_id")
+    private Long userID;
+
     @Column(name = "amount")
     private Double amount;
 
@@ -34,10 +38,16 @@ public class Installment extends EntityID{
     @Enumerated(EnumType.STRING)
     private InstallmentStatus installmentStatus;
 
-    public Installment (Budget budget, Double amount, LocalDate date) {
+    @Column(name = "category")
+    @Enumerated(EnumType.STRING)
+    private ExpenseCategory category;
+
+    public Installment (Budget budget, Long userID, Double amount, LocalDate date, ExpenseCategory expenseCategory) {
         this.budget = budget;
+        this.userID = userID;
         this.amount = amount;
         this.date = date;
         this.installmentStatus = InstallmentStatus.PAGAR;
+        this.category = expenseCategory;
     }
 }
